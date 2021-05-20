@@ -26,7 +26,6 @@ public class MyFirstTest {
         sleep(2000);
         driver.findElement(By.name("btnK")).click();
         wait.until(titleIs("webdriver - Поиск в Google"));
-        System.out.println("");
     }
 
     @After
