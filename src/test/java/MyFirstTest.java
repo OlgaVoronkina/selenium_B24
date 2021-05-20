@@ -23,11 +23,8 @@ public class MyFirstTest {
     public void myFirstTest() throws InterruptedException {
         driver.get("https://www.google.com/");
         driver.findElement(By.name("q")).sendKeys("webdriver");
-
-        System.out.println("ввел webdriver ");
-sleep(2000);
+        sleep(2000);
         driver.findElement(By.name("btnK")).click();
-        System.out.println("нажал на поиск");
         wait.until(titleIs("webdriver - Поиск в Google"));
     }
 
