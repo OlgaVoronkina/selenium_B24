@@ -18,9 +18,14 @@ public class Task_9 extends  BaseTest {
         loginInLitecartAdmin_chrome.loginLiteCartAdmin();
 
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
-
+        System.out.println("1.a - проверить, что страны расположены в алфавитном порядке");
         this.checkSortCountriesList();
+        System.out.println("1.b - для тех стран, у которых количество зон отлично от нуля -- открыть страницу этой страны и там проверить, что зоны расположены в алфавитном порядке");
         this.checkSortZonesList();
+
+        System.out.println("2. - зайти в каждую из стран и проверить, что зоны расположены в алфавитном порядке");
+        driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        this.checkGeoZones();
     }
 
         public void checkSortCountriesList() {
@@ -41,7 +46,7 @@ public class Task_9 extends  BaseTest {
             Collections.sort(sortCountiesList);
 
             if (sortCountiesList.equals(getCountiesList)) {
-                System.out.println("Список стран отсортирован в алфавитном порядке");
+                System.out.println("SUCCESS: Список отсортирован в алфавитном порядке");
             } else {
                 System.out.println("ERROR: Список не в алфавитном порядке");
             }
@@ -76,7 +81,7 @@ public class Task_9 extends  BaseTest {
                     Collections.sort(sortZonesList);
 
                     if (sortZonesList.equals(getZonesList)) {
-                        System.out.println("Список зон страны отсортирован в алфавитном порядке");
+                        System.out.println("SUCCESS: Список отсортирован в алфавитном порядке");
                     } else {
                         System.out.println("ERROR: Список не в алфавитном порядке");
                     }
@@ -84,4 +89,40 @@ public class Task_9 extends  BaseTest {
                 }
             }
         }
+
+        public  void  checkGeoZones(){
+
+
+            List geoZonesList = driver.findElements(By.xpath("//tr//a[contains(@href,'geo_zone_id')and not (contains(@title,'Edit'))]"));
+
+            for (int k = 0; k < geoZonesList.size(); k++){
+                int geoIndex = k+1;
+                WebElement geoZone = driver.findElement(By.xpath("//tr["+ geoIndex +"]//a[contains(@href,'geo_zone_id')and not (contains(@title,'Edit'))]"));
+                geoZone.click();
+                List geoZonesZonesList = driver.findElements(By.xpath("//tr//input[contains(@name,'country_code')]/.."));
+                ArrayList<String> getGeoZonesList = new ArrayList();
+                ArrayList<String> sortGeoZonesList = new ArrayList();
+
+                for (int l = 0; l < geoZonesZonesList.size(); l++) {
+                    WebElement geoZonesZones = (WebElement) geoZonesZonesList.get(l);
+                    String geoZonesName = geoZonesZones.getText();
+                    getGeoZonesList.add(geoZonesName);
+                }
+
+                for (String getGeoZone : getGeoZonesList) {
+                    sortGeoZonesList.add(getGeoZone);
+                }
+
+                Collections.sort(sortGeoZonesList);
+
+                if (sortGeoZonesList.equals(getGeoZonesList)) {
+                    System.out.println("SUCCESS: Список отсортирован в алфавитном порядке");
+                } else {
+                    System.out.println("ERROR: Список не в алфавитном порядке");
+                }
+                driver.navigate().back();
+            }
+
+        }
+
 }
