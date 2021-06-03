@@ -14,7 +14,7 @@ public class LoginInLitecartAdmin_Chrome extends BaseTest{
         driver.findElement(By.xpath("//input[@name='username']")).sendKeys(username);
         driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
         driver.findElement(By.xpath("//button[@name='login']")).click();
-        wait.until(titleIs("Dashboard | My Store"));
+        wait.until(titleIs("My Store"));
             }
 
 }
