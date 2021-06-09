@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
@@ -19,17 +21,17 @@ public class Task_11 extends BaseTest{
 //1) регистрация новой учётной записи с достаточно уникальным адресом электронной почты (чтобы не конфликтовало с ранее созданными пользователями, в том числе при предыдущих запусках того же самого сценария),
         WebElement newCustomers = driver.findElement(By.xpath("//div[@class='content']//a[contains(@href,'create_account')]"));
         newCustomers.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='title']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//input[@name='firstname']")));
         driver.findElement(By.xpath("//div[@class='content']//input[@name='firstname']")).sendKeys("Olga");
         driver.findElement(By.xpath("//div[@class='content']//input[@name='lastname']")).sendKeys("Voronkina");
         driver.findElement(By.xpath("//div[@class='content']//input[@name='address1']")).sendKeys("Crimea");
         String postcode = generatePostcode();
-
         driver.findElement(By.xpath("//div[@class='content']//input[@name='postcode']")).sendKeys(postcode);
         String city = generateRandomString(6);
         driver.findElement(By.xpath("//div[@class='content']//input[@name='city']")).sendKeys(city);
 
-        new Select(driver.findElement(By.xpath("//select[@name='country_code']"))).selectByVisibleText("United States");
+        driver.findElement(By.xpath("//span[contains(@id,'country_code')]")).click();
+        this.putSelectValue("country_code", "United States");
 
         driver.findElement(By.xpath("//div[@class='content']//input[@name='email']")).sendKeys(city+postcode+ "@mail.com");
         String email = driver.findElement(By.xpath("//div[@class='content']//input[@name='email']")).getAttribute("value");
@@ -51,6 +53,7 @@ public class Task_11 extends BaseTest{
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//a[contains(@href,'logout')]")));
 
 //2) выход (logout), потому что после успешной регистрации автоматически происходит вход,
+        sleep(500);
         driver.findElement(By.xpath("//div[@class='content']//a[contains(@href,'logout')]")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//button[@name='login']")));
 
@@ -86,4 +89,19 @@ public class Task_11 extends BaseTest{
             }
         return sb.toString();
         }
+
+    public void putSelectValue(String field, String value) {
+        List selects = driver.findElements(By.xpath(String.format("//li[contains(@id,'"+ field +"')]")));
+        for (int i = 0; i < selects.size(); i++) {
+            WebElement select = (WebElement) selects.get(i);
+            int index = i+1;
+            String selectName = select.getText();
+            if(selectName.equals(value)){
+                System.out.println("нашли совпадение");
+                driver.findElement(By.xpath("//li[contains(@id,'"+ field +"')][" + index +"]")).click();
+                break;
+            }
+        }
+    }
 }
+
