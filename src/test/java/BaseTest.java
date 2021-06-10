@@ -17,23 +17,23 @@ public class BaseTest {
     public static WebDriver driver;
     public static WebDriverWait wait;
 
-    @Before
-    public void start() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized");
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
-    }
-
 //    @Before
 //    public void start() {
-//        DesiredCapabilities caps = new DesiredCapabilities();
-//        //caps.setCapability(FirefoxDriver.MARIONETTE, true);
-//        driver = new FirefoxDriver(caps);
-//        System.out.println(((HasCapabilities)driver).getCapabilities());
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("start-maximized");
+//        driver = new ChromeDriver(options);
+//        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 //        wait = new WebDriverWait(driver, 10);
 //    }
+
+    @Before
+    public void start() {
+        DesiredCapabilities caps = new DesiredCapabilities();
+        //caps.setCapability(FirefoxDriver.MARIONETTE, true);
+        driver = new FirefoxDriver(caps);
+        System.out.println(((HasCapabilities)driver).getCapabilities());
+        wait = new WebDriverWait(driver, 10);
+    }
 
     @After
     public void stop(){
