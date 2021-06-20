@@ -11,7 +11,6 @@ import java.util.List;
 public class Task_17 extends BaseTest{
     @Test
     public void task_17() {
-
         // 1) зайти в админку
         LoginInLitecartAdmin_Chrome loginInLitecartAdmin_chrome = new LoginInLitecartAdmin_Chrome();
         loginInLitecartAdmin_chrome.loginLiteCartAdmin();
